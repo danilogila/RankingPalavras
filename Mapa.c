@@ -102,3 +102,9 @@ void le_termo (Mapa * mp, int i, char *t, int *c){
     }
 
 }  //retorna em ‘t’ o termo no índice ´i´ e em ´c´ o seu contador
+
+void teste(){
+
+    printf("Testando");
+
+}

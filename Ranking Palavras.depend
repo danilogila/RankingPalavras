@@ -1,11 +1,20 @@
 # depslib dependency file v1.0
-1536674700 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.c
+1537055822 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.c
 	"Mapa.h"
 
-1536674328 c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.h
+1537055822 c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.h
 
-1536721354 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\main.c
+1537105578 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\main.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 	"Mapa.h"
+	"Funcoes.h"
+
+1537055697 c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.c
+
+1537106970 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\funcoes.c
+	"Funcoes.h"
+
+1537101176 c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\funcoes.h
 

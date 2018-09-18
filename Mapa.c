@@ -1,22 +1,33 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <mem.h>
 #include "Mapa.h"
 
 void inicia_mapa (Mapa *mp){
 
+    int i;
     mp->blocos = 0;
     mp->total = 0;
-    mp->lista = malloc(sizeof(Item) * 10 * mp->blocos);
+    mp->lista = calloc(sizeof(Item*), mp->blocos);
+    for (i = 0; i < 10; ++i) {
+
+    }
+    printf("\nmapa iniciado");
 } //inicia um mapa vazio
 
 void insere_termo (Mapa *mp, char *s){
 
     if(mp->total%10==0){
         mp->blocos++;
-        mp->lista = (Item*) realloc(sizeof(Item), 10 * mp->blocos);
+        mp->lista = realloc(mp->lista,((sizeof(Item*) *10 * mp->blocos)));
+        printf("\nTamanho da lista redimensionado para : %i",sizeof(mp->lista));
     }
 
+    mp->lista[mp->total] = calloc(sizeof(Item),1);
     mp->lista[mp->total]->conta = 1;
-    mp->lista[mp->total]->termo = (char) malloc(sizeof(s));
-
+    mp->lista[mp->total]->termo = (char*) malloc(sizeof(s));
+    mp->lista[mp->total]->termo = s;
     mp->total++;
 
 } // insere um item com termo s e conta=1
@@ -25,7 +36,7 @@ int incrementa (Mapa *mp, char *s){
 
     int i;
     for( i = 0; mp->total > i ; i++){
-        if(mp->lista[i]==s){
+        if(strcmp(mp->lista[i]->termo, s)== 0){
             mp->lista[i]->conta++;
             return(0);
         }
@@ -38,7 +49,7 @@ int escreve_cont (Mapa *mp, char *s, int c){
 
     int i;
     for( i = 0; mp->total > i ; i++){
-        if(mp->lista[i]==s){
+        if(mp->lista[i] == (Item *) s){
             mp->lista[i]->conta = c;
             return(0);
         }
@@ -51,7 +62,7 @@ int le_contador (Mapa *mp, char *s){
 
     int i;
     for( i = 0; mp->total > i ; i++){
-        if(mp->lista[i]==s){
+        if(mp->lista[i] == (Item *) s){
             return(mp->lista[i]->conta);
         }
     }
@@ -62,9 +73,9 @@ int le_contador (Mapa *mp, char *s){
 void remove_termo (Mapa *mp, char *s){
 
     int i;
-    for( i = 0; mp->total > i ; i++){
+    for( i = 0; i < mp->total ; i++){
         if(mp->lista[i]==s){
-           free(mp->lista[i]);
+            free(mp->lista[i]);
         }
         break;
     }

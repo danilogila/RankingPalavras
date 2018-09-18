@@ -54,7 +54,73 @@ int main()
        printf("\nTermo : %s / Quantidade : %i",mapa->lista[i]->termo,mapa->lista[i]->conta);
     }
 
+    while(1){
+        system("cls");
 
+
+        printf("Ranking de palavras");
+        printf("\n");
+        printf("\n");
+        printf("    1 : Exibir mapa                              \n");
+        printf("    2 : Exibir top 10 palavras                   \n");
+        printf("    3 : Inserir palavra                          \n");
+        printf("    4 : Excluir palavra                          \n");
+        printf("    5 : Limpar mapa                              \n");
+        printf("    6 : Selecionar termo                         \n");
+        printf("    7 : Inserir quantidade em termo              \n");
+        printf("    8 : Estatisticas do Ranking                  \n");
+
+        int opcao;
+            scanf("%i",&opcao);
+        switch (opcao) {
+
+            case (1):
+                for(i=0;i<mapa->total;i++){
+                    printf("\nTermo : %s / Quantidade : %i",mapa->lista[i]->termo,mapa->lista[i]->conta);
+                }
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 2:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 3:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 4:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 5:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 6:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 7:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            case 8:
+                printf("1");
+                scanf("\n Digite para prosseguir %s");
+            break;
+
+            default:
+                    return 0;
+            break;
+        }
+    }
 
     return 0;
 }

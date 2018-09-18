@@ -49,7 +49,7 @@ int escreve_cont (Mapa *mp, char *s, int c){
 
     int i;
     for( i = 0; mp->total > i ; i++){
-        if(mp->lista[i] == (Item *) s){
+        if(mp->lista[i]->termo == s){
             mp->lista[i]->conta = c;
             return(0);
         }
@@ -62,7 +62,7 @@ int le_contador (Mapa *mp, char *s){
 
     int i;
     for( i = 0; mp->total > i ; i++){
-        if(mp->lista[i] == (Item *) s){
+        if(mp->lista[i]->termo == s){
             return(mp->lista[i]->conta);
         }
     }
@@ -74,7 +74,7 @@ void remove_termo (Mapa *mp, char *s){
 
     int i;
     for( i = 0; i < mp->total ; i++){
-        if(mp->lista[i]==s){
+        if(mp->lista[i]->termo==s){
             free(mp->lista[i]);
         }
         break;
@@ -82,11 +82,16 @@ void remove_termo (Mapa *mp, char *s){
     for(; mp->total > i-1 ; i++){
         mp->lista[i] = mp->lista[i+1];
     }
-
+    mp->total--;
 } // remove o item com termo s
 
 void libera_mapa (Mapa * mp){
-
+    int i;
+    for(i=0;i<mp->total;i++){
+        free(mp->lista[i]->termo);
+        free(mp->lista[i]);
+    }
+    free(mp->lista);
     free(mp);
     inicia_mapa(mp);
 

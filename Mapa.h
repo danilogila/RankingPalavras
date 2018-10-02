@@ -30,4 +30,6 @@ int tamanho_mapa (Mapa * mp); // retorna número de itens no mapa
 
 void le_termo (Mapa * mp, int i, char *t, int *c);  //retorna em ‘t’ o termo no índice ´i´
                                                     //e em ´c´ o seu contador
-void teste();
+int encontra_termo (Mapa *mp, char *s);
+
+int retorna_indice (Mapa *mp, char *s);

@@ -43,7 +43,7 @@ void formatador_de_texto (char* str,int limite){
     int i;
     char virg = ';';
     for(i = 0; i < limite; i++){
-        if((str[i] == ' ') || str[i] == '.' || str[i] == ','){
+        if((str[i] == ' ') || str[i] == '.' || str[i] == ',' || str[i] == '\n' || str[i] == '\0' || str[i] == EOF){
             (str[i] = virg);
         }
         if(str[i]==NULL){

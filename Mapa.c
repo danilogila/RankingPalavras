@@ -35,21 +35,26 @@ void insere_termo (Mapa *mp, char *s){
 
 int incrementa (Mapa *mp, char *s){
 
-    int i,trava=0;
+    int i;
     Item* aux;
     int conta_termo=le_contador(mp,s),ultimo = 0;
 
+    i = retorna_indice(mp,s);
 
-    for( i = 0; mp->total > i ; i++){
+    if(i>=0){
+        mp->lista[i]->conta++;
 
-        if(strcmp(mp->lista[i]->termo, s)== 0){
+        printf("     Termo Incrementado");
 
-            mp->lista[i]->conta++;
-
-            printf("     Termo Incrementado");
-            return(0);
+        for(; i > 0 && mp->lista[i]->conta > mp->lista[i-1]->conta; i--){
+            aux = mp->lista[i-1];
+            mp->lista[i-1] = mp->lista[i];
+            mp->lista[i] = aux;
         }
+
+        return(0);
     }
+
     return(1);
 
 }//incrementa contador do termo s, retorna 1 se não encontrou o termo
@@ -57,9 +62,15 @@ int incrementa (Mapa *mp, char *s){
 int escreve_cont (Mapa *mp, char *s, int c){
 
     int i = retorna_indice(mp,s);
-
+    Item* aux;
     if(i>=0){
         mp->lista[i]->conta = c;
+
+        for(; i > 0 && mp->lista[i]->conta > mp->lista[i-1]->conta; i--){
+            aux = mp->lista[i-1];
+            mp->lista[i-1] = mp->lista[i];
+            mp->lista[i] = aux;
+        }
         return(0);
     }
     return(1);
@@ -82,7 +93,7 @@ void remove_termo (Mapa *mp, char *s){
 
     int i = retorna_indice(mp,s);
     if( i >= 0){
-        for(; mp->total > i-1 ; i++){
+        for(; mp->total > i+1 ; i++){
             mp->lista[i] = mp->lista[i+1];
 
         }
@@ -93,20 +104,19 @@ void remove_termo (Mapa *mp, char *s){
             mp->lista = realloc(mp->lista,((sizeof(Item*) *10 * mp->blocos)));
             printf("\nTamanho da lista redimensionado\n");
         }
-        free(mp->lista[mp->total]->termo);
-        free(mp->lista[mp->total]);
+        free(mp->lista[mp->total-1]->termo);
+        free(mp->lista[mp->total-1]);
     }
 } // remove o item com termo s
 
 void libera_mapa (Mapa * mp){
     int i;
     for(i=mp->total-1;i>0;i--){
-        free(mp->lista[i]->termo);
-        free(mp->lista[i]);
+        remove_termo(mp,mp->lista[i]->termo);
     }
-    free(mp->lista);
-    inicia_mapa(mp);
-
+    mp->total--;
+    mp->blocos--;
+    mp->lista = realloc(mp->lista,((sizeof(Item*) *10 * mp->blocos)));
 } // libera o espaço ocupado pelo mapa
 
 int tamanho_mapa (Mapa * mp){

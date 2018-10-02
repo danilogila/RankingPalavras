@@ -97,7 +97,7 @@ int main()
                 for(i = 0; i<x;i++){
                     printf("\nTermo : %s / Quantidade : %i",mapa->lista[i]->termo,mapa->lista[i]->conta);
                 }
-                printf("Digite para prosseguir\n");
+                printf("\nDigite para prosseguir\n");
                 scanf("%d",&opcao);
             break;
 
@@ -131,13 +131,8 @@ int main()
                         printf("Digite o indice da palavra\n");
                         scanf("%d",&opcao);
                         if(opcao > 0 && opcao <= mapa->total ){
-                            char* termo = mapa->lista[opcao-1]->termo;
-                            while(retorna_indice(mapa,termo) != -1){
 
-                                remove_termo(mapa,mapa->lista[opcao-1]->termo);
-
-                            }
-                            printf("Termo %s removido com sucesso\n",termo);
+                            remove_termo(mapa,mapa->lista[opcao-1]->termo);
 
                         } else {
 
@@ -226,7 +221,7 @@ int main()
                     break;
 
                 }
-                printf("Digite para prosseguir\n");
+                printf("\nDigite para prosseguir\n");
                 scanf("%d",&opcao);
 
                 break;
@@ -249,33 +244,33 @@ int main()
 
                             printf("Digite o novo valor para a contagem\n");
                             printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i",conta[0]);
+                            printf("     Contagem: %i\n     ",conta[0]);
                             scanf("%d",conta);
                             escreve_cont(mapa,termo,conta[0]);
 
+                            if(conta[0] > 0 && opcao > 0 && opcao <= mapa->total ){
+                                printf("\n");
+                                printf("\n");
+                                printf("Novo valor\n");
+                                printf("Termo | indice :%i\n",opcao);
+                                printf("     Termo: %s\n",mapa->lista[opcao-1]->termo);
+                                printf("     Contagem: %i\n",mapa->lista[opcao-1]->conta);
+                            } else if(opcao > 0 && opcao <= mapa->total ) {
 
+                                printf("\n");
+                                printf("\n");
+                                printf("Termo zerado\n");
+                                printf("Apagando termo\n");
+                                remove_termo(mapa,termo);
+
+                            }
 
                         } else {
 
                             printf("Indice Invalido\n");
 
                         }
-                        if(conta > 0 && opcao > 0 && opcao <= mapa->total ){
-                            printf("\n");
-                            printf("\n");
-                            printf("Novo valor\n");
-                            printf("Termo | indice :%i\n",opcao);
-                            printf("     Termo: %s\n",mapa->lista[opcao-1]->termo);
-                            printf("     Contagem: %i\n",mapa->lista[opcao-1]->conta);
-                        } else if(opcao > 0 && opcao <= mapa->total ) {
 
-                            printf("\n");
-                            printf("\n");
-                            printf("Termo zerado\n");
-                            printf("Apagando termo\n");
-                            remove_termo(mapa,termo);
-
-                        }
 
                     break;
 
@@ -285,17 +280,22 @@ int main()
                         scanf("%s",insere);
                         indice = retorna_indice(mapa,insere);
 
+                        le_termo(mapa,indice+1,termo,conta);
+
                         if(indice >= 0){
                             printf("Digite o novo valor para a contagem\n");
                             printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i",conta[0]);
+                            printf("     Contagem: %i\n",conta[0]);
+
                             scanf("%d",conta);
+
                             escreve_cont(mapa,termo,conta[0]);
+
                             printf("Termo | indice :%i\n",indice);
-                            printf("     Termo: %s\n",mapa->lista[indice]->termo);
-                            printf("     Contagem: %i\n",mapa->lista[indice]->conta);
+                            printf("     Termo: %s\n",termo);
+                            printf("     Contagem: %i\n",conta[0]);
                         }
-                        if(conta > 0){
+                        if(conta[0] > 0){
                             printf("\n");
                             printf("\n");
                             printf("Novo valor\n");
@@ -327,8 +327,10 @@ int main()
             break;
 
             case 8:
+                printf("\nExistem %i blocos no mapa\n",mapa->blocos);
                 printf("\nExistem %i palavras no mapa\n",mapa->total);
-                printf("\nO termo %s e o mais recorrente aparecendo %.2f vezes a mais que o segundo termo\n",mapa->lista[0]->termo,(1.0*mapa->lista[0]->conta/mapa->lista[1]->conta*1.0));
+                if(mapa->blocos > 0)
+                    printf("\nO termo %s e o mais recorrente aparecendo %.2f vezes a mais que o segundo termo\n",mapa->lista[0]->termo,(1.0*mapa->lista[0]->conta/mapa->lista[1]->conta*1.0));
                 printf("Digite para prosseguir");
                 scanf("\n  %d",&opcao);
             break;

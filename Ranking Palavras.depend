@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1538487725 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.c
+1538513213 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.c
 	<stdio.h>
 	<stdlib.h>
 	<mem.h>
@@ -7,7 +7,7 @@
 
 1538435170 c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\mapa.h
 
-1538487821 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\main.c
+1538514349 source:c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

@@ -193,8 +193,10 @@
 
                             for(i = 0; i< mapa->total ;i++){
                                  tmp = strlen(mapa->lista[i]->termo);
-
+                                  printf("\nMinimo: %i", minimo);
+                                  printf("\tmp: %i", tmp);
                                  if(minimo >= tmp){
+                                    printf("\nSomou!");
                                     contadorLetras = contadorLetras + 1;
                                  }
                             }

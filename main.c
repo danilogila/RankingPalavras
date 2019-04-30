@@ -1,352 +1,228 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "Mapa.h"
-#include "Funcoes.h"
-#define Limite_bytes 10000
+            #include <stdio.h>
+            #include <stdlib.h>
+            #include <string.h>
+            #include "Mapa.h"
+            #include "Utils.h"
+            #include <locale.h>
+            #define Limite 10000
 
-int main()
-{
-    int i=0;
-    FILE *fp;
+            int contadorLetras = 0;
+            int qtd_maxima, qtd_minima = 0;
+            int tmp;
 
-    char *str = calloc(Limite_bytes, sizeof(char));
-    char* filename = "lorem.txt";
+            int main()
+            {
+                setlocale(LC_ALL, "Portuguese");
+                int i=0;
 
-    fp = fopen(filename, "r");
-    if (fp == NULL){
-        printf("Deu Ruim no %s",filename);
-        return 1;
-    }
-    //while (fgets(str, Limite_bytes, fp) != NULL);
-    fscanf(fp,"%[^\0]", str);
+                char **lista;
 
-    fclose(fp);
+                char* nome_arquivo[100];
+                FILE *fp;
 
-    formatador_de_texto(str,Limite_bytes);
+                char *str = calloc(Limite, sizeof(char));
+                char *filename = "loader.txt";
+                char path[50];
 
-    printf("%s\n", str);
-    printf("total de palavras : %i", contador_de_palavras(str,Limite_bytes));
-
-    separador_de_palavras(str,Limite_bytes);
-    char **lista = lista_de_palavras(str,Limite_bytes);
-
-    for(i=0;i<contador_de_palavras(str,Limite_bytes);i++){
-        printf("\n%s",lista[i]);
-    }
-
-
-    Mapa* mapa;
-
-    inicia_mapa(mapa);
-
-
-    for(i=0;i<contador_de_palavras(str,Limite_bytes);i++){
-        printf("\nAcrescentando palavra: %s // %i",lista[i],i);
-        if(incrementa(mapa,lista[i]) == 1){
-            printf("     Nova palavra");
-            insere_termo(mapa,lista[i]);
-        } else {
-            printf("     Ja existe palavra");
-        }
-    }
-    printf("\nTamanho do mapa : %i",tamanho_mapa(mapa));
-
-    for(i=0;i<mapa->total;i++){
-       printf("\nTermo : %s / Quantidade : %i",mapa->lista[i]->termo,mapa->lista[i]->conta);
-    }
-
-    while(1){
-
-        printf("\n");
-        printf("\n");
-        printf("Ranking de palavras");
-        printf("\n");
-        printf("\n");
-        printf("    1 : Exibir mapa                              \n");
-        printf("    2 : Exibir top 10 palavras                   \n");
-        printf("    3 : Inserir palavra                          \n");
-        printf("    4 : Excluir palavra                          \n");
-        printf("    5 : Limpar mapa                              \n");
-        printf("    6 : Selecionar termo                         \n");
-        printf("    7 : Inserir quantidade em termo              \n");
-        printf("    8 : Estatisticas do Ranking                  \n");
-        printf("\n");
-        printf("\n");
-
-        int opcao,bacon;
-        int indice;
-         int x;
-         char* termo = malloc(50*sizeof(char));;
-         int* conta[1];
-        char* insere = calloc(Limite_bytes,sizeof(char));
-
-            scanf("%d",&opcao);
-        switch (opcao) {
-
-            case (1):
-                for(i=0;i<mapa->total;i++){
-                    printf("\nTermo : %s / Quantidade : %i",mapa->lista[i]->termo,mapa->lista[i]->conta);
-                }
-                printf("Digite para prosseguir\n");
-                scanf("%d",&opcao);
-            break;
-
-            case 2:
-                x = (mapa->total>10) ? 10 : mapa->total;
-                for(i = 0; i<x;i++){
-                    printf("\nTermo : %s / Quantidade : %i",mapa->lista[i]->termo,mapa->lista[i]->conta);
-                }
-                printf("\nDigite para prosseguir\n");
-                scanf("%d",&opcao);
-            break;
-
-            case 3:
-
-                printf("Digite uma palavra ou senten�a com menos de 10000 bytes:\n");
-                scanf("%s",insere);
-                if(incrementa(mapa,insere) == 1){
-                    printf("     Nova palavra");
-                    insere_termo(mapa,insere);
-                } else {
-                    printf("     Ja existe palavra\n");
+                fp = fopen(filename, "r");
+                if (fp == NULL){
+                    printf("\nFalha ao abrir o arquivo. Tente novamente");
+                    return 1;
                 }
 
+                fscanf(fp,"%[^\0]", str);
 
-                printf("Digite para prosseguir\n");
-                scanf("%d",&opcao);
-            break;
+                fclose(fp);
 
-            case 4:
+                formatador(str,Limite);
 
-                printf("1:      Excluir palava por indice\n");
-                printf("2:      Excluir palava inserida\n");
-                scanf("%d",&opcao);
-
-                switch (opcao){
-
-                    case 1 :
+                separador(str,Limite);
+                lista = lista_de_palavras(str,Limite);
 
 
-                        printf("Digite o indice da palavra\n");
-                        scanf("%d",&opcao);
-                        if(opcao > 0 && opcao <= mapa->total ){
+                Mapa* mapa;
 
-                            remove_termo(mapa,mapa->lista[opcao-1]->termo);
+                inicia_mapa(mapa);
 
-                        } else {
+                while(1){
 
-                            printf("Indice Invalido\n");
+                    printf("\n");
+                    printf("Ranking de palavras");
+                    printf("\n");
+                    printf("1 - Ler arquivo txt \n");
+                    printf("2 - Exibir Ranking Completo\n");
+                    printf("3 - Exibir intervalo de Ranking\n");
+                    printf("4 - Buscar palavra\n");
+                    printf("5 - Opções\n");
+                    printf("6 - Sair\n");
+                    printf("\n");
 
-                        }
+                    int opcao;
+                    int minimo;
+                    int indice;
+                    char* palavra = calloc(Limite,sizeof(char));
+                    int x;
+                    char* termo = malloc(50*sizeof(char));
+                    int* conta[1];
+                    char* insere = calloc(Limite,sizeof(char));
 
-                        printf("Digite para prosseguir\n");
-                        scanf("%d",&opcao);
+                    printf("\nDigite uma Opçao: ");
+                    scanf("%d",&opcao);
 
-                    break;
+                    switch (opcao) {
 
-                    case 2 :
+                        case (1):
 
-                        printf("Digite a palavra\n");
-                        scanf("%s",insere);
-                        remove_termo(mapa,insere);
-                    break;
+                            printf("\nDigite caminho: ");
+                            scanf("%s", &path);
 
-                    default:
+                            printf("\n Caminho do arquivo: %s", path);
 
-                        printf("Opcao Invalida\n");
+                            fp = fopen(path, "r");
+                            if (fp == NULL){
+                                printf("\nFalha ao abrir o arquivo. Tente novamente");
+                                return 1;
+                            }
 
-                    break;
+                            fscanf(fp,"%[^\0]", str);
 
-                }
+                            fclose(fp);
 
-                printf("Digite para prosseguir\n");
-                scanf("%d",&opcao);
-            break;
+                            formatador(str,Limite);
 
-            case 5:
-                libera_mapa(mapa);
-                printf("1");
-                printf("Digite para prosseguir\n");
-                scanf("%d",&opcao);
-            break;
+                            separador(str,Limite);
 
-            case 6:
-                printf("1:      Selecionar palava por indice\n");
-                printf("2:      Digitar palava\n");
-                scanf("%d",&opcao);
+                            lista = lista_de_palavras(str,Limite);
 
-                switch (opcao){
+                            for(i=0;i<contador(str,Limite);i++){
+                                if(incrementa(mapa,lista[i]) == 1){
 
-                    case 1 :
-
-
-                        printf("Digite o indice da palavra\n");
-                        scanf("%d",&opcao);
-                        if(opcao > 0 && opcao <= mapa->total ){
-
-                            le_termo(mapa,opcao,termo,conta);
-
-                        } else {
-
-                            printf("Indice Invalido\n");
-
-                        }
-                        if(conta > 0 && opcao > 0 && opcao <= mapa->total ){
-                           printf("Termo | indice :%i\n",opcao);
-                            printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i",conta[0]);
-                        }
-
-                    break;
-
-                    case 2 :
-
-                        printf("Digite a palavra\n");
-                        scanf("%s",insere);
-                        indice = retorna_indice(mapa,insere);
-
-                        if(indice >= 0){
-                            printf("Termo | indice :%i\n",indice);
-                            printf("     Termo: %s\n",mapa->lista[indice]->termo);
-                            printf("     Contagem: %i\n",mapa->lista[indice]->conta);
-                        }
-
-                    break;
-
-                    default:
-
-                        printf("Opcao Invalida\n");
-
-                    break;
-
-                }
-                printf("\nDigite para prosseguir\n");
-                scanf("%d",&opcao);
-
-                break;
-
-            case 7:
-                printf("1:      Selecionar palava por indice\n");
-                printf("2:      Digitar palava\n");
-                scanf("%d",&opcao);
-
-                switch (opcao){
-
-                    case 1 :
+                                    insere_termo(mapa,lista[i]);
+                                }
+                            }
 
 
-                        printf("Digite o indice da palavra\n");
-                        scanf("%d",&opcao);
-                        if(opcao > 0 && opcao <= mapa->total ){
 
-                            le_termo(mapa,opcao,termo,conta);
+                            printf("\nDigite 1 para voltar ao Menu principal\n");
+                            scanf("%d",&opcao);
 
-                            printf("Digite o novo valor para a contagem\n");
-                            printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i\n     ",conta[0]);
-                            scanf("%d",conta);
-                            escreve_cont(mapa,termo,conta[0]);
+                        break;
 
-                            if(conta[0] > 0 && opcao > 0 && opcao <= mapa->total ){
-                                printf("\n");
-                                printf("\n");
-                                printf("Novo valor\n");
-                                printf("Termo | indice :%i\n",opcao);
-                                printf("     Termo: %s\n",mapa->lista[opcao-1]->termo);
-                                printf("     Contagem: %i\n",mapa->lista[opcao-1]->conta);
-                            } else if(opcao > 0 && opcao <= mapa->total ) {
+                        case 2:
+                            if(mapa->total == 0){
+                                printf("\ nMapa está vazio");
+                                break;
+                            }
 
-                                printf("\n");
-                                printf("\n");
-                                printf("Termo zerado\n");
-                                printf("Apagando termo\n");
-                                remove_termo(mapa,termo);
+                            for(i = 0; i< mapa->total ;i++){
+                                printf("\nTermo : %s",mapa->lista[i]->termo);
+                                printf("\nQuantidade : %i", mapa->lista[i]->contador);
+                            }
+
+                            printf("\nDigite 1 para voltar ao Menu principal\n");
+                            scanf("%d",&opcao);
+
+                        break;
+
+                        case 3:
+
+                                if(mapa->total == 0){
+                                    printf("\ nMapa está vazio");
+                                    break;
+                                }
+
+                                system("cls");
+                                printf("\n==================================");
+                                printf("\n===    Intervalo de Ranking    ===");
+                                printf("\n==================================");
+
+
+                                printf("\nDigite a quantidade maxima: \n");
+                                scanf("%d",&qtd_maxima);
+
+                                printf("\nDigite a quantidade minima: \n");
+                                scanf("%d",&qtd_minima);
+
+                                for(i = 0; i< mapa->total ;i++){
+                                     if(mapa->lista[i]->contador >= qtd_minima && mapa->lista[i]->contador <= qtd_maxima){
+                                        printf("\nPalavra %s", mapa->lista[i]->termo);
+                                        printf("\nQuantidade %i\n", mapa->lista[i]->contador);
+
+                                     }
+                                }
+
+                                printf("\nTotal de palavras: %i", contadorLetras);
+                                printf("\nDigite 1 para voltar ao Menu principal\n");
+                                scanf("%d",&opcao);
+
+
+                            break;
+
+                        break;
+
+                        case 4:
+
+                            if(mapa->total == 0){
+                                    printf("\ nMapa está vazio");
+                                    break;
 
                             }
 
-                        } else {
+                            printf("\nDigite a palavra: ");
+                            scanf("%s", palavra);
+                            tmp = encontra_termo(mapa, palavra);
 
-                            printf("Indice Invalido\n");
+                            printf("\nDigite 1 para voltar ao Menu principal\n");
+                            scanf("%d",&opcao);
 
-                        }
+                        break;
+
+                        case 5:
+                            if(mapa->total == 0){
+                                    printf("\ nMapa está vazio");
+                                    break;
+                            }
+
+                            system("cls");
+                            printf("\n==================================");
+                            printf("\n===    Intervalo de Ranking    ===");
+                            printf("\n==================================");
+
+                            printf("\nDigite minimo de caracteres a considerar:\n");
+                            scanf("%d",&minimo);
+
+                            for(i = 0; i< mapa->total ;i++){
+                                 tmp = strlen(mapa->lista[i]->termo);
+
+                                 if(minimo >= tmp){
+                                    contadorLetras = contadorLetras + 1;
+                                 }
+                            }
+
+                            printf("\nTotal de palavras: %i", contadorLetras);
+                            printf("\nDigite 1 para voltar ao Menu principal\n");
+                            scanf("%d",&opcao);
+
+                            break;
+
+                        break;
+
+                        case 6:
+
+                            return 0;
 
 
-                    break;
+                        default:
+                                return 0;
+                        break;
 
-                    case 2 :
 
-                        printf("Digite a palavra\n");
-                        scanf("%s",insere);
-                        indice = retorna_indice(mapa,insere);
+                    }
 
-                        le_termo(mapa,indice+1,termo,conta);
+                    printf("\n");
 
-                        if(indice >= 0){
-                            printf("Digite o novo valor para a contagem\n");
-                            printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i\n",conta[0]);
-
-                            scanf("%d",conta);
-
-                            escreve_cont(mapa,termo,conta[0]);
-
-                            printf("Termo | indice :%i\n",indice);
-                            printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i\n",conta[0]);
-                        }
-                        if(conta[0] > 0){
-                            printf("\n");
-                            printf("\n");
-                            printf("Novo valor\n");
-                            printf("Termo | indice :%i\n",opcao);
-                            printf("     Termo: %s\n",termo);
-                            printf("     Contagem: %i",conta[0]);
-                        } else {
-
-                            printf("\n");
-                            printf("\n");
-                            printf("Termo zerado\n");
-                            printf("Apagando termo\n");
-                            remove_termo(mapa,termo);
-
-                        }
-
-                    break;
-
-                    default:
-
-                        printf("Opcao Invalida\n");
-
-                    break;
-
+                    system("cls");
                 }
-                printf("Digite para prosseguir\n");
-                scanf("%d",&opcao);
 
-            break;
-
-            case 8:
-                printf("\nExistem %i blocos no mapa\n",mapa->blocos);
-                printf("\nExistem %i palavras no mapa\n",mapa->total);
-                if(mapa->blocos > 0)
-                    printf("\nO termo %s e o mais recorrente aparecendo %.2f vezes a mais que o segundo termo\n",mapa->lista[0]->termo,(1.0*mapa->lista[0]->conta/mapa->lista[1]->conta*1.0));
-                printf("Digite para prosseguir");
-                scanf("\n  %d",&opcao);
-            break;
-
-            default:
-                    return 0;
-            break;
-
-
-        }
-        printf("\n");
-        printf("\n");
-        printf("\n");
-
-        system("cls");
-    }
-
-    return 0;
-}
+                return 0;
+            }

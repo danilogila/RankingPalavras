@@ -24,3 +24,35 @@
 
 1537237788 c:\users\jl_so\desktop\trabalhos\uezo\ed1\ranking\ranking palavras\ranking-palavras\funcoes.h
 
+1556603449 source:c:\users\danilo\desktop\ranking-palavras\funcoes.c
+	<stdio.h>
+	<stdlib.h>
+	<mem.h>
+	"Funcoes.h"
+
+1556571274 c:\users\danilo\desktop\ranking-palavras\funcoes.h
+
+1556615405 source:c:\users\danilo\desktop\ranking-palavras\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Mapa.h"
+	"Utils.h"
+	<locale.h>
+
+1556571255 c:\users\danilo\desktop\ranking-palavras\mapa.h
+
+1556612835 source:c:\users\danilo\desktop\ranking-palavras\mapa.c
+	<stdio.h>
+	<mem.h>
+	<stdlib.h>
+	"Mapa.h"
+
+1556593814 c:\users\danilo\desktop\ranking-palavras\utils.h
+
+1556590346 source:c:\users\danilo\desktop\ranking-palavras\utils.h
+
+1556571274 source:c:\users\danilo\desktop\ranking-palavras\funcoes.h
+
+1556592920 c:\users\danilo\desktop\ranking-palavras\teste.h
+

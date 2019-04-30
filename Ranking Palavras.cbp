@@ -34,7 +34,9 @@
 		<Unit filename="Funcoes.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Funcoes.h" />
+		<Unit filename="Funcoes.h">
+			<Option compile="1" />
+		</Unit>
 		<Unit filename="Mapa.c">
 			<Option compilerVar="CC" />
 		</Unit>

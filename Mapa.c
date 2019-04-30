@@ -1,7 +1,7 @@
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <mem.h>
+#include <stdlib.h>
 #include "Mapa.h"
 
 void inicia_mapa (Mapa *mp){
@@ -10,43 +10,41 @@ void inicia_mapa (Mapa *mp){
     mp->blocos = 0;
     mp->total = 0;
     mp->lista = calloc(sizeof(Item*), mp->blocos);
-    for (i = 0; i < 10; ++i) {
-
-    }
-    printf("\nmapa iniciado");
-} //inicia um mapa vazio
+    printf("\nmapa Inicializado \n");
+}
 
 void insere_termo (Mapa *mp, char *s){
 
     if(mp->total%10==0){
         mp->blocos++;
         mp->lista = realloc(mp->lista,((sizeof(Item*) *10 * mp->blocos)));
-        printf("Tamanho da lista redimensionado\n");
+        printf("======== Lista cheia ========\n");
+        printf("======== Redimensionando a lista ========\n");
     }
 
     mp->lista[mp->total] = calloc(sizeof(Item),1);
-    mp->lista[mp->total]->conta = 1;
+    mp->lista[mp->total]->contador = 1;
+
     mp->lista[mp->total]->termo = (char*) malloc(sizeof(s));
     mp->lista[mp->total]->termo = s;
     mp->total++;
-    printf("     Termo Inserido");
+    printf("\nTermo Inserido com sucesso!\n");
 
-} // insere um item com termo s e conta=1
+}
 
 int incrementa (Mapa *mp, char *s){
 
     int i;
     Item* aux;
-    int conta_termo=le_contador(mp,s),ultimo = 0;
 
     i = retorna_indice(mp,s);
 
     if(i>=0){
-        mp->lista[i]->conta++;
+        mp->lista[i]->contador++;
 
-        printf("     Termo Incrementado");
+        printf("Termo %s Incrementado com sucesso\n", mp->lista[i]->termo);
 
-        for(; i > 0 && mp->lista[i]->conta > mp->lista[i-1]->conta; i--){
+        for(; i > 0 && mp->lista[i]->contador > mp->lista[i-1]->contador; i--){
             aux = mp->lista[i-1];
             mp->lista[i-1] = mp->lista[i];
             mp->lista[i] = aux;
@@ -57,16 +55,16 @@ int incrementa (Mapa *mp, char *s){
 
     return(1);
 
-}//incrementa contador do termo s, retorna 1 se não encontrou o termo
+}
 
 int escreve_cont (Mapa *mp, char *s, int c){
 
     int i = retorna_indice(mp,s);
     Item* aux;
     if(i>=0){
-        mp->lista[i]->conta = c;
+        mp->lista[i]->contador = c;
 
-        for(; i > 0 && mp->lista[i]->conta > mp->lista[i-1]->conta; i--){
+        for(; i > 0 && mp->lista[i]->contador > mp->lista[i-1]->contador; i--){
             aux = mp->lista[i-1];
             mp->lista[i-1] = mp->lista[i];
             mp->lista[i] = aux;
@@ -75,19 +73,19 @@ int escreve_cont (Mapa *mp, char *s, int c){
     }
     return(1);
 
-}// escreve ´c` no contador do termo s, retorna 1 se não encontrou o termo
+}
 
 int le_contador (Mapa *mp, char *s){
 
     int i;
     for( i = 0; mp->total > i ; i++){
         if(mp->lista[i]->termo == s){
-            return(mp->lista[i]->conta);
+            return(mp->lista[i]->contador);
         }
     }
     return(0);
 
-} // retorna contador do termo s
+}
 
 void remove_termo (Mapa *mp, char *s){
 
@@ -95,7 +93,6 @@ void remove_termo (Mapa *mp, char *s){
     if( i >= 0){
         for(; mp->total > i+1 ; i++){
             mp->lista[i] = mp->lista[i+1];
-
         }
 
         mp->total--;
@@ -107,7 +104,7 @@ void remove_termo (Mapa *mp, char *s){
         free(mp->lista[mp->total-1]->termo);
         free(mp->lista[mp->total-1]);
     }
-} // remove o item com termo s
+}
 
 void libera_mapa (Mapa * mp){
     int i;
@@ -117,20 +114,21 @@ void libera_mapa (Mapa * mp){
     mp->total--;
     mp->blocos--;
     mp->lista = realloc(mp->lista,((sizeof(Item*) *10 * mp->blocos)));
-} // libera o espaço ocupado pelo mapa
+}
 
 int tamanho_mapa (Mapa * mp){
 
+    printf("Tamanho atual do Mapa: %i", mp->total);
     return(mp->total);
 
-} // retorna número de itens no mapa
+}
 
 void le_termo (Mapa * mp, int i, char *t, int *c){
 
     if( i < mp->total && i > 0){
 
         strcpy(t,mp->lista[i-1]->termo);
-        *c = mp->lista[i-1]->conta;
+        *c = mp->lista[i-1]->contador;
 
     } else {
 
@@ -139,44 +137,34 @@ void le_termo (Mapa * mp, int i, char *t, int *c){
 
     }
 
-}  //retorna em ‘t’ o termo no índice ´i´ e em ´c´ o seu contador
-
+}
 int encontra_termo (Mapa *mp, char *s){
 
-    int i,trava=0;
-    Item* aux;
-    int conta_termo=le_contador(mp,s),ultimo = 0;
-
-
-    for( i = 0; mp->total > i ; i++){
+    for(int i = 0; mp->total > i ; i++){
 
         if(strcmp(mp->lista[i]->termo, s)== 0){
 
-            printf("     Termo encontrado\n");
+            printf("Termo %s: \n", s);
+            printf("Quantidade: %i\n", mp->lista[i]->contador);
             return(0);
         }
     }
-    printf("     Termo ausente\n");
+    printf("Termo %s: \n", s);
+    printf("Quantidade: 0\n");
     return(1);
 
-}//Retorna 0 se encontra termo e 1 se não
+}
 
 int retorna_indice (Mapa *mp, char *s){
 
-    int i,trava=0;
-    Item* aux;
-    int conta_termo=le_contador(mp,s),ultimo = 0;
-
-
-    for( i = 0; mp->total > i ; i++){
+    for(int i = 0; mp->total > i ; i++){
 
         if(strcmp(mp->lista[i]->termo, s)== 0){
-
-            printf("     Termo encontrado\n");
             return(i);
         }
     }
-    printf("     Termo ausente\n");
+    printf("Termo ausente\n");
     return(-1);
 
-}//Retorna indice de termo e -1 se não for encontrado termo especificado
+}
+

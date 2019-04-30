@@ -1,8 +1,7 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <mem.h>
-#include "Funcoes.h"
+#include "Utils.h"
 
 char* pega_palavra (const char* str,int prime,int last){
 
@@ -69,8 +68,12 @@ void separador(char* str,int limite){
                 ultima_letra--;
             }
 
+            /*for(j=primeira_letra;j<ultima_letra;j++){
+                printf("%c hgfghfgyfdghgf",str[j]);
+            }*/
             k++;
-
+            //printf(" : %i",k);
+            //printf("\n");
             primeira_letra = i+1;
             ultima_letra = primeira_letra;
         }
@@ -90,6 +93,8 @@ char** lista_de_palavras (char* str,int limite){
     for(i=0;i<contador(str,limite);i++){
         lista[i] = (char*) malloc(10*(sizeof(char)));
     }
+
+    //sprintf("palavras : %i",contador(str,limite));
 
     for(i=0;i<limite;i++){
         if(str[i]==NULL){
@@ -113,4 +118,3 @@ char** lista_de_palavras (char* str,int limite){
     return lista;
 
 }
-

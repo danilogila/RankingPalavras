@@ -47,7 +47,9 @@
                 while(1){
 
                     printf("\n");
-                    printf("Ranking de palavras");
+                    printf("\n===================================");
+                    printf("\n====    Ranking de Palavras    ====");
+                    printf("\n===================================");
                     printf("\n");
                     printf("1 - Ler arquivo txt \n");
                     printf("2 - Exibir Ranking Completo\n");

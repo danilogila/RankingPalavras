@@ -10,11 +10,11 @@ void inicia_mapa (Mapa *mp){
     mp->blocos = 0;
     mp->total = 0;
     mp->lista = calloc(sizeof(Item*), mp->blocos);
-    printf("\n===================================");
-    printf("\n=====    Mapa Inicializado    =====");
-    printf("\n===================================");
-    printf("\n\n\n");
-    system("cls");
+    //printf("\n===================================");
+    //printf("\n=====    Mapa Inicializado    =====");
+    //printf("\n===================================");
+    //printf("\n\n\n");
+    //system("cls");
 }
 
 void insere_termo (Mapa *mp, char *s){

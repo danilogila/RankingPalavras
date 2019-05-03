@@ -10,6 +10,8 @@
             int qtd_maxima, qtd_minima = 0;
             int tmp;
 
+            //Mapa* mapa;
+
             int main()
             {
                 setlocale(LC_ALL, "Portuguese");
@@ -26,7 +28,7 @@
 
                 fp = fopen(filename, "r");
                 if (fp == NULL){
-                    printf("\nFalha ao abrir o arquivo. Tente novamente");
+                    printf("\nFalha ao abrir o arquivo. Tente novamentdsse");
                     return 1;
                 }
 
@@ -61,12 +63,15 @@
 
                     int opcao;
                     int minimo;
+
                     int indice;
                     char* palavra = calloc(Limite,sizeof(char));
                     int x;
                     char* termo = malloc(50*sizeof(char));
                     int* conta[1];
                     char* insere = calloc(Limite,sizeof(char));
+                    char *str = calloc(Limite, sizeof(char));
+
 
                     printf("\nDigite uma Opçao: ");
                     scanf("%d",&opcao);
@@ -74,26 +79,23 @@
                     switch (opcao) {
 
                         case (1):
-
                             printf("\nDigite caminho: ");
                             scanf("%s", &path);
 
                             printf("\n Caminho do arquivo: %s", path);
 
                             fp = fopen(path, "r");
+
                             if (fp == NULL){
-                                printf("\nFalha ao abrir o arquivo. Tente novamente");
-                                return 1;
+                                printf("\nFalha ao abrir o arquivo. Digite 1 para voltar ao Menu principal\n");
+                                scanf("%d",&opcao);
+                                break;
                             }
 
                             fscanf(fp,"%[^\0]", str);
-
                             fclose(fp);
-
                             formatador(str,Limite);
-
                             separador(str,Limite);
-
                             lista = lista_de_palavras(str,Limite);
 
                             for(i=0;i<contador(str,Limite);i++){
@@ -102,8 +104,6 @@
                                     insere_termo(mapa,lista[i]);
                                 }
                             }
-
-
 
                             printf("\nDigite 1 para voltar ao Menu principal\n");
                             scanf("%d",&opcao);
